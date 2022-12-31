@@ -1,0 +1,71 @@
+﻿@model IEnumerable<DistantLearning.Models.TestComplete>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Прохождение тестов</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Mark)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Test)
+            </th>
+            @{
+                var TeacherCons = (int)ViewData["Teacher"];
+            }
+          @if (TeacherCons == 1)
+                {
+            <th>
+                имя студента
+            </th>
+                }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            @if (item.Mark != -1)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mark) балл(ов)
+                    </td>
+                }
+                else
+                {
+                   <td>
+                    Не оценено
+                   </td>
+                }
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Test.TestName)
+            </td>
+            @if (TeacherCons == 1)
+                {
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.Name)
+            </td>
+                }
+                <td>
+                <a asp-action="Edit" asp-route-id="@item.TestCompleteId">Пройти</a> |
+                <a asp-action="Mark" asp-route-id="@item.TestCompleteId">Оценить</a> |
+                <a asp-action="Delete" asp-route-id="@item.TestCompleteId">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
